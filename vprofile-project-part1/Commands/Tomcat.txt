@@ -1,0 +1,46 @@
+#### ***Tomcat Setup***
+$ vagrant ssh app01
+[vagrant@app01 ~]$ sudo -i
+[root@app01 ~]# yum update -y
+[root@app01 ~]# yum install epel-release -y
+[root@app01 ~]# dnf -y install java-11-openjdk java-11-openjdk-devel
+[root@app01 ~]# dnf install git maven wget -y
+[root@app01 ~]# cd /tmp/
+[root@app01 tmp]# wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz
+[root@app01 tmp]# ls
+[root@app01 tmp]#  tar xzvf apache-tomcat-9.0.75.tar.gz
+[root@app01 tmp]# useradd --home-dir /usr/local/tomcat --shell /sbin/nologin tomcat
+[root@app01 tmp]# id tomcat
+uid=1001(tomcat) gid=1001(tomcat) groups=1001(tomcat)
+[root@app01 tmp]# ls /usr/local/tomcat/
+[root@app01 tmp]# cp -r /tmp/apache-tomcat-9.0.75/* /usr/local/tomcat/
+[root@app01 tmp]# ls -ls /usr/local/tomcat/
+[root@app01 tmp]# ls -ld /usr/local/tomcat/
+[root@app01 tmp]# chown -R tomcat.tomcat /usr/local/tomcat
+[root@app01 tmp]# ls -ls /usr/local/tomcat/
+[root@app01 tmp]# vi /etc/systemd/system/tomcat.service
+===========================================================================
+[Unit]
+Description=Tomcat
+After=network.target
+[Service]
+User=tomcat
+WorkingDirectory=/usr/local/tomcat
+Environment=JRE_HOME=/usr/lib/jvm/jre
+Environment=JAVA_HOME=/usr/lib/jvm/jre
+Environment=CATALINA_HOME=/usr/local/tomcat
+Environment=CATALINE_BASE=/usr/local/tomcat
+ExecStart=/usr/local/tomcat/bin/catalina.sh run
+ExecStop=/usr/local/tomcat/bin/shutdown.sh
+SyslogIdentifier=tomcat-%i
+[Install]
+WantedBy=multi-user.target
+===========================================================================
+
+[root@app01 tmp]# ls /etc/systemd/system/
+[root@app01 tmp]# systemctl daemon-reload
+[root@app01 tmp]# systemctl start tomcat
+[root@app01 tmp]#  systemctl enable tomcat
+[root@app01 tmp]#  systemctl status tomcat
+[root@app01 tmp]# ls /usr/local/tomcat/
+[root@app01 tmp]# ls /usr/local/tomcat/bin/

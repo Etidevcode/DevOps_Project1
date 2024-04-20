@@ -1,0 +1,10 @@
+$  cd vagrant/
+$  ls
+$  cd Automated_provisioning/
+$  cd Automated_provisioning_WinMacIntel/
+$  ls
+$  vagrant up
+$  vagrant halt
+$  vagrant status
+$  vagrant up
+$  vagrant destroy --force

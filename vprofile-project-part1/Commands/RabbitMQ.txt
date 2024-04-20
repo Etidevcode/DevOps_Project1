@@ -1,0 +1,17 @@
+#### ***RabbitMQ Setup****
+$ vagrant ssh rmq01
+[vagrant@rmq01 ~]$ sudo -i
+[root@rmq01 ~]# yum update -y
+[root@rmq01 ~]#  yum install epel-release -y
+[root@rmq01 ~]# dnf -y install centos-release-rabbitmq-38
+[root@rmq01 ~]# dnf --enablerepo=centos-rabbitmq-38 -y install rabbitmq-server
+[root@rmq01 ~]# sudo systemctl start rabbitmq-server
+[root@rmq01 ~]# sudo systemctl enable rabbitmq-server
+[root@rmq01 ~]# sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config'
+[root@rmq01 ~]# cat  /etc/rabbitmq/rabbitmq.config
+[root@rmq01 ~]# rabbitmqctl add_user test test
+[root@rmq01 ~]# rabbitmqctl set_user_tags test administrator
+[root@rmq01 ~]# systemctl restart rabbitmq-server
+[root@rmq01 ~]# systemctl status rabbitmq-server
+[root@rmq01 ~]# exit
+[vagrant@rmq01 ~]$ exit

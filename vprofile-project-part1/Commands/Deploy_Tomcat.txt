@@ -1,0 +1,22 @@
+#### ***CODE BUILD & DEPLOY (app01)***
+[root@app01 tmp]# git clone -b main https://github.com/hkhcoder/vprofile-project.git
+[root@app01 tmp]# cd vprofile-project/
+[root@app01 vprofile-project]# ls
+[root@app01 vprofile-project]# ls src/main/resources/
+[root@app01 vprofile-project]# vim src/main/resources/application.properties
+[root@app01 vprofile-project]# ls
+[root@app01 vprofile-project]# mvn install
+[root@app01 vprofile-project]# ls
+[root@app01 vprofile-project]# ls target/
+[root@app01 vprofile-project]# systemctl stop tomcat
+[root@app01 vprofile-project]# ls /usr/local/tomcat/webapps/
+[root@app01 vprofile-project]# ls /usr/local/tomcat/webapps/ROOT/
+[root@app01 vprofile-project]# rm -rf /usr/local/tomcat/webapps/ROOT/
+[root@app01 vprofile-project]# ls /usr/local/tomcat/webapps/
+[root@app01 vprofile-project]# cp target/vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
+[root@app01 vprofile-project]# ls /usr/local/tomcat/webapps/
+[root@app01 vprofile-project]# systemctl start tomcat
+[root@app01 vprofile-project]# ls /usr/local/tomcat/webapps/
+[root@app01 vprofile-project]# systemctl status tomcat
+[root@app01 vprofile-project]# exit
+[vagrant@app01 ~]$ exit

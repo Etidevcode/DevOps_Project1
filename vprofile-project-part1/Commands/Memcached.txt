@@ -1,0 +1,14 @@
+#### ***Memcache Setup****
+
+$ vagrant ssh mc01
+[vagrant@mc01 ~]$ sudo -i
+[root@mc01 ~]#  dnf install epel-release -y
+[root@mc01 ~]# dnf install memcached -y
+[root@mc01 ~]# systemctl start memcached
+[root@mc01 ~]# systemctl enable memcached
+[root@mc01 ~]# sed -i 's/127.0.0.1/0.0.0.0/g' /etc/sysconfig/memcached
+[root@mc01 ~]# vim /etc/sysconfig/memcached
+[root@mc01 ~]# sudo systemctl restart memcached
+[root@mc01 ~]# sudo systemctl status memcached
+[root@mc01 ~]# exit
+[vagrant@mc01 ~]$ exit

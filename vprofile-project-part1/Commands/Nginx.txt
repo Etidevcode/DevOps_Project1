@@ -1,0 +1,56 @@
+#### ***NGINX SETUP*** ####
+
+
+$ vagrant ssh web01
+vagrant@web01:~$ sudo -i
+root@web01:~# apt update && apt upgrade -y
+root@web01:~# apt install nginx -y
+root@web01:~# 
+
+
+===================================================
+upstream vproapp {
+   server app01:8080;
+}
+server {
+   listen 80;
+   location /{
+  proxy_pass http://vproapp;
+ }
+}
+
+===================================================
+root@web01:~# ls /etc/nginx/sites-enabled/
+root@web01:~# ls -l /etc/nginx/sites-enabled/
+root@web01:~# rm -rf /etc/nginx/sites-enabled/default
+root@web01:~# ls -l /etc/nginx/sites-enabled/
+root@web01:~# ln -s /etc/nginx/sites-available/vproapp /etc/nginx/sites-enabled/vproapp
+root@web01:~# ls -l /etc/nginx/sites-enabled/
+root@web01:~# systemctl restart nginx
+root@web01:~# systemectl status nginx
+
+root@web01:~# ip addr show
+
+===========================================================================================
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 02:f3:70:2b:ee:8c brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 metric 100 brd 10.0.2.255 scope global dynamic enp0s3
+       valid_lft 65714sec preferred_lft 65714sec
+    inet6 fe80::f3:70ff:fe2b:ee8c/64 scope link
+       valid_lft forever preferred_lft forever
+3: enp0s8: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:fb:26:c1 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.56.11/24 brd 192.168.56.255 scope global enp0s8
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fefb:26c1/64 scope link
+===========================================================================================================
+
+root@web01:~# exit
+vagrant@web01:~$ exit
+$ vagrant destroy --f
